@@ -4,30 +4,33 @@ import (
 	"fmt"
 )
 
-func CalculateDiscount(valordaCompraAtual float64, historicodeCompras []float64) (float64, error) {
-	if valordaCompraAtual <= 0 {
-		return 0, fmt.Errorf("Valor da compra é invalido")
-	}
-	valorTotalHistorico := 0.0
-	for _, valorDeCadaCompra := range historicodeCompras {
-		valorTotalHistorico += valorDeCadaCompra
-	}
-	desconto := 0.0
-	media := 0.0
-	if valorTotalHistorico > 0 {
-		media = valorTotalHistorico / float64(len(historicodeCompras))
+func CalculateDiscount(valorCompraAtual float64, historicoCompras []float64) (float64, error) {
+	if valorCompraAtual <= 0 {
+		return 0, fmt.Errorf("Valor da compra invalido")
 	}
 
-	if len(historicodeCompras) == 0 {
-		desconto = valordaCompraAtual * 0.1
+	valorTotalHistorico := 0.0
+	for _, valorDeCadaCompra := range historicoCompras {
+		valorTotalHistorico += valorDeCadaCompra
+	}
+
+	desconto := 0.0
+	media := 0.0
+
+	if valorTotalHistorico > 0 {
+		media = valorTotalHistorico / float64(len(historicoCompras))
+	}
+
+	if len(historicoCompras) == 0 {
+		desconto = valorCompraAtual * 0.1
 	} else if media > 1000 {
-		desconto = valordaCompraAtual * 0.2
+		desconto = valorCompraAtual * 0.2
 	} else if valorTotalHistorico > 1000 {
-		desconto = valordaCompraAtual * 0.10
+		desconto = valorCompraAtual * 0.1
 	} else if valorTotalHistorico <= 1000 && valorTotalHistorico > 500 {
-		desconto = valordaCompraAtual * 0.05
+		desconto = valorCompraAtual * 0.05
 	} else if valorTotalHistorico <= 500 {
-		desconto = valordaCompraAtual * 0.02
+		desconto = valorCompraAtual * 0.02
 	}
 
 	return desconto, nil
