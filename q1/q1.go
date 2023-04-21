@@ -1,7 +1,7 @@
 package q1
 
 import (
-	"fmt"
+	"errors"
 )
 
 func verificarElegebilidadeDesconto(valordaCompraAtual float64, historicodeCompras []float64) (float64, error) {
