@@ -4,35 +4,37 @@ import (
 	"errors"
 )
 
-func verificarElegebilidadeDesconto(valordaCompraAtual float64, historicodeCompras []float64) (float64, error) {
-	if valordaCompraAtual <= 0 {
-		return 0, errors.New("Valor da compra é invalido")
+func calcular(currentPurchase float64, purchaseHistory []float64) (float64, error) {
+	if currentPurchase <= 0 {
+		return 0, errors.New("valor da compra inválido")
 	}
-	valorTotalHistorico := 0.0
-	for _, valorDeCadaCompra := range historicodeCompras {
-		valorTotalHistorico += valorDeCadaCompra
-	}
-	media := 0.0
-	if valorTotalHistorico > 0 {
-		media = valorTotalHistorico / float64(len(historicodeCompras))
+
+	var totalPurchases float64
+	for _, purchase := range purchaseHistory {
+		totalPurchases += purchase
 	}
 
 	var discount float64
-	if valorTotalHistorico > 1000 {
+	if totalPurchases > 1000 {
 		discount = 0.1
-	} else if valorTotalHistorico > 500 {
+	} else if totalPurchases > 500 {
 		discount = 0.05
 	} else {
 		discount = 0.02
 	}
 
-	if len(historicodeCompras) == 0 {
+	if len(purchaseHistory) == 0 {
 		discount = 0.1
 	}
-	
-	if media > 1000 {
+
+	var averagePurchase float64
+	if len(purchaseHistory) > 0 {
+		averagePurchase = totalPurchases / float64(len(purchaseHistory))
+	}
+
+	if averagePurchase > 1000 {
 		discount = 0.2
 	}
-	
-	return discount * valordaCompraAtual, nil
+
+	return currentPurchase * discount, nil
 }
