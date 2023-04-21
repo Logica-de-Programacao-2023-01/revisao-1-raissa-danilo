@@ -6,7 +6,7 @@ import (
 
 func verificarElegebilidadeDesconto(valordaCompraAtual float64, historicodeCompras []float64) (float64, error) {
 	if valordaCompraAtual <= 0 {
-		return 0, fmt.Errorf("Valor da compra é invalido")
+		return 0, errors.New("Valor da compra é invalido")
 	}
 	valorTotalHistorico := 0.0
 	for _, valorDeCadaCompra := range historicodeCompras {
