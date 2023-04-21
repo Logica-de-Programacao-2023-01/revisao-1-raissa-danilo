@@ -1,40 +1,34 @@
 package q1
 
 import (
-	"errors"
+	"fmt"
 )
 
-func calcular(currentPurchase float64, purchaseHistory []float64) (float64, error) {
-	if currentPurchase <= 0 {
-		return 0, errors.New("valor da compra inválido")
+func CalculateDiscount(valordaCompraAtual float64, historicodeCompras []float64) (float64, error) {
+	if valordaCompraAtual <= 0 {
+		return 0, fmt.Errorf("Valor da compra é invalido")
+	}
+	valorTotalHistorico := 0.0
+	for _, valorDeCadaCompra := range historicodeCompras {
+		valorTotalHistorico += valorDeCadaCompra
+	}
+	desconto := 0.0
+	media := 0.0
+	if valorTotalHistorico > 0 {
+		media = valorTotalHistorico / float64(len(historicodeCompras))
 	}
 
-	var totalPurchases float64
-	for _, purchase := range purchaseHistory {
-		totalPurchases += purchase
+	if len(historicodeCompras) == 0 {
+		desconto = valordaCompraAtual * 0.1
+	} else if media > 1000 {
+		desconto = valordaCompraAtual * 0.2
+	} else if valorTotalHistorico > 1000 {
+		desconto = valordaCompraAtual * 0.10
+	} else if valorTotalHistorico <= 1000 && valorTotalHistorico > 500 {
+		desconto = valordaCompraAtual * 0.05
+	} else if valorTotalHistorico <= 500 {
+		desconto = valordaCompraAtual * 0.02
 	}
 
-	var discount float64
-	if totalPurchases > 1000 {
-		discount = 0.1
-	} else if totalPurchases > 500 {
-		discount = 0.05
-	} else {
-		discount = 0.02
-	}
-
-	if len(purchaseHistory) == 0 {
-		discount = 0.1
-	}
-
-	var averagePurchase float64
-	if len(purchaseHistory) > 0 {
-		averagePurchase = totalPurchases / float64(len(purchaseHistory))
-	}
-
-	if averagePurchase > 1000 {
-		discount = 0.2
-	}
-
-	return currentPurchase * discount, nil
+	return desconto, nil
 }
