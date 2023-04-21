@@ -18,9 +18,7 @@ func verificarElegebilidadeDesconto(valordaCompraAtual float64, historicodeCompr
 		media = valorTotalHistorico / float64(len(historicodeCompras))
 	}
 
-	if len(historicodeCompras) == 0 {
-		desconto = valordaCompraAtual * 0.1
-	} else if media > 1000 {
+	 if media > 1000 {
 		desconto = valordaCompraAtual * 0.2
 	} else if valorTotalHistorico > 1000 {
 		desconto = valordaCompraAtual * 0.10
@@ -28,6 +26,9 @@ func verificarElegebilidadeDesconto(valordaCompraAtual float64, historicodeCompr
 		desconto = valordaCompraAtual * 0.05
 	} else if valorTotalHistorico <= 500 {
 		desconto = valordaCompraAtual * 0.02
+	}
+	if len(historicodeCompras) == 0 {
+		desconto = valordaCompraAtual * 0.1
 	}
 
 	return desconto, nil
